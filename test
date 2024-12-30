@@ -1,1 +1,35 @@
+# testing dataset (no overlapping with training data)
+directory_name2 = 'C:/Users/sp/Desktop/kang/third/color_test_7_9'
+Image_test = np.zeros([16,224,224,3])
+test_data = [97,101,115,122,127,136,142,151,153,160,169,171,182,183,191,210]
+for i in range (0,16):
+    filename = str(test_data[i]) + '.jpg'
+    img = cv2.imread(directory_name2 + '/' + filename)
+    img_shape = img.shape
+    new_img = img[int(img_shape[0]/10*4):int(img_shape[0]/10*6), int(img_shape[1]/10*4):int(img_shape[1]/10*6)]
+    resize_image = cv2.resize(new_img, (224, 224), interpolation=cv2.INTER_LINEAR)  # bilinear interpolation
+    Image_test[i-1,:,:,:] = resize_image
+Image_test = torch.from_numpy(Image_test)
+Image_test = Image_test.permute(0, 3, 1, 2)
+Image_test = Image_test.to(torch.float32)
+test_label = np.zeros([16,1])
+test_label = torch.from_numpy(test_label)
+test_label = test_label.to(torch.float32)
+print(Image_test.shape)
 
+# test
+    myModel.eval()
+    total_test_loss = 0
+    with torch.no_grad():
+        for data in test_dataloader:
+            images, labels = data
+            images, labels = images.to(device), labels.to(device)
+            outputs = torch.abs(myModel(images))
+            loss = loss_fn(outputs, labels)
+            total_test_loss += loss.item()
+            # record statistic
+        print("Validate Loss: {:.3f}".format(total_test_loss / len(test_dataloader)))
+        print("finish")
+end_time = time.time()
+train_time = end_time - start_time
+print(train_time)
