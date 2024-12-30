@@ -1,3 +1,10 @@
+import numpy as np
+import cv2
+import torch
+import time
+from sklearn.model_selection import train_test_split
+from torch.utils.data import DataLoader, TensorDataset
+import torch.nn as nn
 # Image Input
 directory_name = 'E/color_7_9'
 Image = np.zeros([250,224,224,3])
