@@ -1,1 +1,13 @@
-
+start_time = time.time()
+output = np.zeros([1,16])
+i = 0
+for data in predict_dataloader:
+    images, labels = data
+    images, labels = images.to(device), labels.to(device)
+    outputs = torch.abs(myModel(images))
+    output = outputs.detach().numpy()
+    i = i + 1
+end_time = time.time()
+test_time = end_time - start_time
+print(test_time)
+print(output)
